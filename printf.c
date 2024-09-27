@@ -912,3 +912,19 @@ int fctprintf(void (*out)(char character, void* arg), void* arg, const char* for
   va_end(va);
   return ret;
 }
+
+// unsigned char *uart = (unsigned char*)0x10000000;
+void _putchar(char c) {
+   // Goal: write(1, &c, sizeof(c));
+   asm volatile (
+      "li a7, 64\n"
+      "li a0, 1\n"
+      "mv a1, %0\n"
+      "mv a2, %1\n"
+      "ecall\n"
+      :
+      : "r"(&c), "r"(1)
+      : "a0", "a1", "a2", "a7"     
+   );
+}
+
